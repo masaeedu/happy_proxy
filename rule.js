@@ -45,9 +45,12 @@ const modifyHTML = async body => {
     if (n.tagName === "SCRIPT" || n.tagName === "STYLE") continue;
     for (const c of Array.from(n.childNodes)) {
       if (c.nodeType === Node.TEXT_NODE) {
-        const span = document.createElement("span");
-        span.innerHTML = transform(c.textContent);
-        n.replaceChild(span, c);
+        const newContent = transform(c.textContent);
+        if (newContent.indexOf("span") !== -1) {
+          const span = document.createElement("span");
+          span.innerHTML = newContent;
+          n.replaceChild(span, c);
+        }
       }
     }
   }
