@@ -2,9 +2,13 @@
 
 ## Overview
 
-A proxy to bring out the best in the internet
+A proxy to bring out the best in the internet.
 
-![screenshot](./screenshot.png)
+## Examples
+
+![](./screenshot.png)
+
+![](./screenshot2.png)
 
 ## Running
 
