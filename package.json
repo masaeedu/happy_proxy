@@ -12,5 +12,11 @@
     "splitting": "^1.0.6",
     "spongebobify": "^0.3.8",
     "whatwg-mimetype": "^2.3.0"
+  },
+  "devDependencies": {
+    "anyproxy": "^4.0.13"
+  },
+  "scripts": {
+    "start": "anyproxy --intercept --rule ./rule.js"
   }
 }
