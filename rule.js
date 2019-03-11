@@ -5,6 +5,8 @@ const mime = require("whatwg-mimetype");
 const spongebobify = require("spongebobify");
 const Sentiment = require("sentiment");
 
+const mode = "nice";
+
 const delay = d => new Promise(res => setTimeout(res, d));
 const pipe = fs => x => fs.reduce((p, f) => f(p), x);
 
@@ -16,9 +18,9 @@ const createElement = d => tn => ch => {
 };
 
 const sentiment = new Sentiment();
-const embiggen = s => {
+const embiggen = factor => s => {
   return s.split(/\b/).reduce((p, w) => {
-    const score = sentiment.analyze(w).score;
+    const score = factor * sentiment.analyze(w).score;
 
     return (
       p +
@@ -29,19 +31,17 @@ const embiggen = s => {
   });
 };
 
-const transform = pipe([
-  // Spongebobify the text
-  // spongebobify,
-  // Embiggen the nice words
-  embiggen
-]);
+const transform = {
+  nice: embiggen(1),
+  hard: embiggen(-1),
+  spongebob: spongebobify
+}[mode];
 
 const modifyHTML = async body => {
   const dom = new JSDOM(body);
   const { document, Node } = dom.window;
-  const nodes = Array.from(document.getElementsByTagName("*"));
 
-  for (const n of nodes) {
+  for (const n of Array.from(document.getElementsByTagName("*"))) {
     if (n.tagName === "SCRIPT" || n.tagName === "STYLE") continue;
     for (const c of Array.from(n.childNodes)) {
       if (c.nodeType === Node.TEXT_NODE) {
@@ -50,6 +50,8 @@ const modifyHTML = async body => {
           const span = document.createElement("span");
           span.innerHTML = newContent;
           n.replaceChild(span, c);
+        } else {
+          c.textContent = newContent;
         }
       }
     }
