@@ -6,7 +6,7 @@
   "dependencies": {
     "@masaeedu/fp": "https://github.com/masaeedu/fp.git#dev",
     "cheerio": "^1.0.0-rc.2",
-    "http-proxy": "^1.17.0",
+    "http-proxy": "^1.18.1",
     "jsdom": "^14.0.0",
     "sentiment": "^5.0.1",
     "splitting": "^1.0.6",
